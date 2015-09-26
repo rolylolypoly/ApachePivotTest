@@ -4,6 +4,8 @@
  */
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Random;
 
 import org.apache.pivot.collections.ArrayList;
 import org.apache.pivot.collections.Map;
@@ -29,7 +31,13 @@ public class test {
         DesktopApplicationContext.main(MyApp.class, args);
     }
 
+    public static HashMap db = new HashMap(4);
+    public static int Key;
+    public static int Value;
+    public static Random random = new Random();
+
     public static class MyApp extends Window implements Application {
+        //TODO DRAW A LINE
         private final Form form = new Form();
         private final Form.Section section = new Form.Section();
         private final Label label = new Label("Select file to upload...");
@@ -95,13 +103,21 @@ public class test {
         };
 
         private final ButtonPressListener testButtonPressListener = new ButtonPressListener() {
-            @Override
-            public void buttonPressed(final Button testButton) throws RuntimeException{
+            public void buttonPressed(final Button testButton) {
                 try {
-                    Runtime.getRuntime().exec("explorer.exe /select," + "C:/Windows");
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    Key++;
+                    Value = random.nextInt() * 10;
+                    db.put(Key, Value);
+                } catch (Exception e) {
+                    e.getMessage();
                 }
+
+                if (db.size() >= 8) {
+                    Key = 0;
+                    db.clear();
+                }
+
+                System.out.println(db.keySet());
             }
         };
 
