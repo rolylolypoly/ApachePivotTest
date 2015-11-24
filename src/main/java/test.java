@@ -3,48 +3,21 @@
  * Edited by Will on 9/25/2015.
  */
 import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Random;
 
 import org.apache.pivot.collections.ArrayList;
 import org.apache.pivot.collections.Map;
 import org.apache.pivot.collections.Sequence;
-import org.apache.pivot.wtk.Alert;
-import org.apache.pivot.wtk.Application;
-import org.apache.pivot.wtk.Button;
-import org.apache.pivot.wtk.ButtonPressListener;
-import org.apache.pivot.wtk.DesktopApplicationContext;
-import org.apache.pivot.wtk.Display;
-import org.apache.pivot.wtk.FileBrowserSheet;
-import org.apache.pivot.wtk.Form;
-import org.apache.pivot.wtk.Label;
-import org.apache.pivot.wtk.ListView;
-import org.apache.pivot.wtk.MessageType;
-import org.apache.pivot.wtk.PushButton;
-import org.apache.pivot.wtk.Sheet;
-import org.apache.pivot.wtk.SheetCloseListener;
-import org.apache.pivot.wtk.Window;
+import org.apache.pivot.wtk.*;
 
 public class test {
     public static void main(final String[] args) {
         DesktopApplicationContext.main(MyApp.class, args);
     }
 
-    public static HashMap db = new HashMap(4);
-    public static int Key;
-    public static int Value;
-    public static Random random = new Random();
-
     public static class MyApp extends Window implements Application {
-        //TODO DRAW A LINE
         private final Form form = new Form();
         private final Form.Section section = new Form.Section();
         private final Label label = new Label("Select file to upload...");
-
-        private final Form.Section section2 = new Form.Section();
-        private final Label label2 = new Label("test");
-        private final PushButton testButton = new PushButton();
 
         private final PushButton btOpenFileDialog = new PushButton();
         private final FileBrowserSheet fileBrowser = new FileBrowserSheet();
@@ -59,22 +32,16 @@ public class test {
             section.add(btOpenFileDialog);
             form.getSections().add(section);
 
-            section.add(label2);
-            testButton.setButtonData("test");
-            section.add(testButton);
-            form.getSections().add(section2);
-
-            testButton.getButtonPressListeners().add(testButtonPressListener);
 
             fileBrowser.setMode(FileBrowserSheet.Mode.SAVE_AS);
             btOpenFileDialog.getButtonPressListeners().add(
-                    fileDialogDisplayListener);
+                    buttonListener);
             this.setContent(form);
             this.setTitle("I have no clue what I am doing.");
             this.setMaximized(true);
         }
 
-        private final ButtonPressListener fileDialogDisplayListener = new ButtonPressListener() {
+        private final ButtonPressListener buttonListener = new ButtonPressListener() {
             @Override
             public void buttonPressed(final Button button) {
                 fileBrowser.open(MyApp.this, new SheetCloseListener() {
@@ -99,25 +66,6 @@ public class test {
                         }
                     }
                 });
-            }
-        };
-
-        private final ButtonPressListener testButtonPressListener = new ButtonPressListener() {
-            public void buttonPressed(final Button testButton) {
-                try {
-                    Key++;
-                    Value = random.nextInt() * 10;
-                    db.put(Key, Value);
-                } catch (Exception e) {
-                    e.getMessage();
-                }
-
-                if (db.size() >= 8) {
-                    Key = 0;
-                    db.clear();
-                }
-
-                System.out.println(db.keySet());
             }
         };
 
